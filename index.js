@@ -10,8 +10,8 @@ async function run () {
     
     const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
 
-    if (eventName !== 'push' && eventName !== 'pull_request') {
-        setFailed('Events other than `push` and `pull_request` are not supported, got ' + eventName)
+    if (eventName && eventName !== 'push' && eventName !== 'pull_request') {
+        setFailed('Events other than `push` and `pull_request` are not supported')
       return
     }
 
@@ -30,7 +30,6 @@ async function run () {
 
     startGroup('Workflow Info')
     console.log({ owner, repo, branch, workflowName, workflowId, pathToWorkflow })
-    console.log('Poll seconds', poll_seconds)
     endGroup()
 
     do {
@@ -61,7 +60,7 @@ async function run () {
 
       const incompleteRuns = runs.filter(run => run.status !== 'completed')
 
-      startGroup(`Incomplete Runs (${incompleteRuns.length})`)
+      startGroup(`Incomplete Runs (${incompleteRuns.length}) ${poll_seconds}`)
       console.log(incompleteRuns)
       endGroup()
 

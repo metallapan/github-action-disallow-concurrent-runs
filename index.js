@@ -6,7 +6,7 @@ async function run () {
     const token = getInput('token', { required: true })
     const poll_seconds = getInput('poll_seconds')
     const octokit = github.getOctokit(token)
-    const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds))
+    const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds*1000))
     
       const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
 
@@ -18,6 +18,7 @@ async function run () {
         setFailed('Events other than `push`, `pull_request` are not supported')
       return
     }
+    const thisRunNumber = github.context.runNumber
 
     const branch = (eventName === 'push')
       ? ref.slice('refs/heads/'.length) // ref = 'refs/heads/master'
@@ -62,14 +63,15 @@ async function run () {
       console.log(runs)
       endGroup()
 
-      const incompleteRuns = runs.filter(run => run.status !== 'completed')
+        const incompleteRuns = runs.filter(run => run.status !== 'completed' && run.runNumber < thisRunNumber)
 
-      startGroup(`Incomplete Runs (${incompleteRuns.length}) (${poll_seconds})`)
+      startGroup(`Incomplete and older runs (${incompleteRuns.length})`)
       console.log(incompleteRuns)
       endGroup()
 
+
       if (incompleteRuns.length === 1) {
-        console.log('✔ This was the only run for this workflow on this branch 🎉')
+        console.log('✔ This was the only or oldest run for this workflow on this branch 🎉')
         return
       }
       await sleeper()

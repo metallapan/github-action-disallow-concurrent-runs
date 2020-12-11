@@ -9,13 +9,13 @@ async function run () {
     const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds))
     
       const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
-      
+
       startGroup('Context Info')
       console.log(github.context)
       endGroup()
 
-    if (eventName && eventName !== 'push' && eventName !== 'pull_request') {
-        setFailed('Events other than `push` and `pull_request` are not supported')
+    if (eventName !== 'workflow_dispatch' && eventName !== 'push' && eventName !== 'pull_request') {
+        setFailed('Events other than `push`, `pull_request` and `workflow_dispatch` are not supported')
       return
     }
 

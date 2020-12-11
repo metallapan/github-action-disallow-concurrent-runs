@@ -14,8 +14,8 @@ async function run () {
       console.log(github.context)
       endGroup()
 
-    if (eventName !== 'workflow_dispatch' && eventName !== 'push' && eventName !== 'pull_request') {
-        setFailed('Events other than `push`, `pull_request` and `workflow_dispatch` are not supported')
+    if (eventName !== 'push' && eventName !== 'pull_request') {
+        setFailed('Events other than `push`, `pull_request` are not supported')
       return
     }
 

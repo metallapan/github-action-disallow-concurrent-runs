@@ -8,7 +8,11 @@ async function run () {
     const octokit = github.getOctokit(token)
     const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds))
     
-    const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
+      const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
+      
+      startGroup('Context Info')
+      console.log(github.context)
+      endGroup()
 
     if (eventName && eventName !== 'push' && eventName !== 'pull_request') {
         setFailed('Events other than `push` and `pull_request` are not supported')

@@ -11,7 +11,7 @@ async function run () {
     const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
 
     if (eventName !== 'push' && eventName !== 'pull_request') {
-      setFailed('Events other than `push` and `pull_request` are not supported.')
+        setFailed('Events other than `push` and `pull_request` are not supported, got ', eventName)
       return
     }
 

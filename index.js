@@ -7,7 +7,7 @@ async function run () {
     const poll_seconds = getInput('poll_seconds') || 0
     const octokit = github.getOctokit(token)
     const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds))
-    console.log('Poll seconds', poll_seconds)
+    
     const { eventName, repo: { owner, repo }, workflow: workflowName, ref, sha } = github.context
 
     if (eventName !== 'push' && eventName !== 'pull_request') {
@@ -30,6 +30,7 @@ async function run () {
 
     startGroup('Workflow Info')
     console.log({ owner, repo, branch, workflowName, workflowId, pathToWorkflow })
+    console.log('Poll seconds', poll_seconds)
     endGroup()
 
     do {

@@ -70,7 +70,7 @@ async function run () {
       endGroup()
 
 
-      if (incompleteRuns.length === 1) {
+      if (incompleteRuns.length === 0) {
         console.log('✔ This was the only or oldest run for this workflow on this branch 🎉')
         return
       }

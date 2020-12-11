@@ -60,7 +60,7 @@ async function run () {
 
       const incompleteRuns = runs.filter(run => run.status !== 'completed')
 
-      startGroup(`Incomplete Runs (${incompleteRuns.length}) ${poll_seconds}`)
+      startGroup(`Incomplete Runs (${incompleteRuns.length}) (${poll_seconds})`)
       console.log(incompleteRuns)
       endGroup()
 

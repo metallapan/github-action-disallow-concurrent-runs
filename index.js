@@ -4,7 +4,7 @@ const github = require('@actions/github')
 async function run () {
   try {
     const token = getInput('token', { required: true })
-    const poll_seconds = getInput('poll_seconds') || 0
+    const poll_seconds = getInput('poll_seconds')
     const octokit = github.getOctokit(token)
     const sleeper = () => new Promise((resolve) => setTimeout(resolve, poll_seconds))
     
